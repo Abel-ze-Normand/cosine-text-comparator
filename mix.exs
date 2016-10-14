@@ -14,7 +14,8 @@ defmodule Lab2.Mixfile do
   #
   # Type "mix help compile.app" for more information
   def application do
-    [applications: [:logger]]
+    [applications: [:logger],
+     mod: {Gui, []}]
   end
 
   # Dependencies can be Hex packages:
@@ -28,6 +29,7 @@ defmodule Lab2.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [{:stemex, "~> 0.1.1"},
-     {:table_rex, "~> 0.8"}]
+     {:table_rex, "~> 0.8"},
+     {:seagull, git: "https://github.com/oslampa/seagull"}]
   end
 end
