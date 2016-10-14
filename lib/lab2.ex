@@ -7,17 +7,6 @@ defmodule Lab2 do
     {:ok, self}
   end
 
-  def user_interface do
-    input = IO.gets "Where should we start...[info/req]~n"
-    action = process_input(input)
-    action.()
-    user_interface
-  end
-
-  def process_input("info"), do: &print_data/0
-  def process_input("req"), do: &request_phrase/0
-  def process_input(_), do: fn -> {:error, :badargs} end
-
   def retrieve_db_data, do: Agent.get(:occurences_store, fn(state) -> state end)
 
   def initialize do
@@ -31,12 +20,6 @@ defmodule Lab2 do
     occurences = retrieve_db_data
     header = ["word"] ++ Enum.map(@files_range, &("text#{&1}"))
     TableRex.quick_render!(occurences, header, "count of matches")
-    |> IO.puts
-  end
-
-  def request_phrase do
-    IO.gets "Enter your phrase and press RETURN~n"
-    |> process_phrase
   end
 
   def process_phrase(phrase) do
@@ -47,7 +30,7 @@ defmodule Lab2 do
       measure = cond do
         keys_count(curr_file_occ) < keys_count(word_frequences) ->
           calc_equality_measure(curr_file_occ, word_frequences);
-      true ->
+        true ->
           calc_equality_measure(word_frequences, curr_file_occ)
       end
       Map.update acc, "file#{i}", measure, fn(_x) -> measure end

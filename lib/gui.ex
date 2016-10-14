@@ -29,7 +29,7 @@ defmodule Gui do
       from pid: ^pid do
         from widget: :button1 do
           :click ->
-            db = Lab2
+            db = Lab2.retrieve_db_data
         end
       end
     end
