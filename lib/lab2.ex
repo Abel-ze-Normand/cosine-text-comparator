@@ -18,6 +18,17 @@ defmodule Lab2 do
 
   def print_data do
     occurences = retrieve_db_data
+    header = "Абсолютные частоты слов:\nWORD: <<какое то слово>>\n(num1, num2...)\n\n"
+    rows = Enum.reduce occurences, "", fn(row, acc) ->
+      res = "WORD: <<#{hd(row)}>>\n"
+      r = Enum.join(tl(row), ", ")
+      acc <> res <> r <> "\n\n"
+    end
+    header <> rows
+  end
+
+  def print_table_data do
+    occurences = retrieve_db_data
     header = ["word"] ++ Enum.map(@files_range, &("text#{&1}"))
     TableRex.quick_render!(occurences, header, "count of matches")
   end
@@ -34,6 +45,12 @@ defmodule Lab2 do
           calc_equality_measure(word_frequences, curr_file_occ)
       end
       Map.update acc, "file#{i}", measure, fn(_x) -> measure end
+    end
+  end
+
+  def print_process_phrase_output(m) do
+    Enum.reduce m, "", fn({k, v}, acc) ->
+      acc <> "#{k}: #{v}\n"
     end
   end
 
